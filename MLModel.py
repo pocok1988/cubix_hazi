@@ -45,17 +45,18 @@ class MLModel:
                         'error': str(e)}), 500
 
     def preprocessing_pipeline(self, df):
-        """Preprocesses the data for training by handling missing values,
-            and normalizing data.
+        """
+        Preprocesses the data for training by handling missing values,
+        and normalizing data.
         
         Keyword arguments:
-        df (DataFrame) -- DataFrame with the data
+            df (DataFrame) -- DataFrame with the data
 
         Returns:
-        df -- DataFrame with the preprocessed data
+            pandas.DataFrame -- DataFrame with the preprocessed data
         """
 
-        df[SPAM] = df[CATEGORY].apply(lambda x: 1 if x==SPAM else 0)
+        df[SPAM] = np.where(df[CATEGORY] == SPAM, 1, 0)
         df.drop(CATEGORY,inplace =True, axis =1)
 
         return df
@@ -130,9 +131,9 @@ class MLModel:
         test_accuracy -- Accuracy of the model on the test set
         """
 
-        x= df.Message
-        y= df['spam']
-        x_train,x_test,y_train,y_test = train_test_split(x,y,test_size=0.2)
+        messages = df.Message
+        spam_labels= df['spam']
+        x_train,x_test,y_train,y_test = train_test_split(messages,spam_labels,test_size=0.2)
 
         clf = Pipeline([('vectorizer', CountVectorizer()),('nb', MultinomialNB())])
         clf.fit(x_train,y_train)

@@ -1,3 +1,2 @@
 SPAM = 'spam'
-
 CATEGORY = 'Category'
