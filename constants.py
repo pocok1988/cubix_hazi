@@ -1,0 +1,3 @@
+SPAM = 'spam'
+
+CATEGORY = 'Category'

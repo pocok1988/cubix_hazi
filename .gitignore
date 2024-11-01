@@ -1,0 +1,8 @@
+**/*.log
+*.log
+**/*.docx
+/hf/
+/doc/
+/private/
+/local/
+/__pycache__/
