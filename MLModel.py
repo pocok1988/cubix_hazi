@@ -12,15 +12,59 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import Pipeline
 from constants import CATEGORY,SPAM
+import mlflow
+from mlflow.artifacts import download_artifacts
 
 
 class MLModel:
-    def __init__(self):
-        # Initialize MLModel instance, load existing model if available.
-        self.model = (MLModel.load_model(
-            'artifacts/models/clf_model.pkl') 
-                if os.path.exists('artifacts/models/clf_model.pkl') 
-                else print('clf_model.pkl does not exist'))
+    def __init__(self,client):
+        """
+        Initialize the MLModel with the given MLflow client and 
+        load the staging model if available.
+
+        Parameters:
+            client (MlflowClient): The MLflow client used to 
+            interact with the MLflow registry.
+
+        Attributes:
+            model (object): The loaded model, or None if no model 
+                is loaded.
+        """
+        self.client = client
+        self.model = None
+        self.load_staging_model()
+
+    def load_staging_model(self):
+        """
+        Load the latest model tagged with 'Staging' stage from MLflow 
+        if available.
+        
+        If a model with the 'Staging' tag exists, it loads the model 
+        and associated artifacts. Otherwise, prints a warning.
+
+        Returns:
+            None
+        """
+        try:
+            latest_staging_model = None
+            for model in self.client.search_registered_models():
+                for latest_version in model.latest_versions:
+                    if latest_version.current_stage == "Staging":
+                        latest_staging_model = latest_version
+                        break
+                if latest_staging_model:
+                    break
+            
+            if latest_staging_model:
+                model_uri = latest_staging_model.source
+                self.model = mlflow.sklearn.load_model(model_uri)
+                print("Staging model loaded successfully.")
+                
+            else:
+                print("No staging model found.")
+                
+        except Exception as e:
+            print(f"Error loading model or artifacts: {e}")
 
     def predict(self, inference_rows):
         """
