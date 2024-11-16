@@ -1,7 +1,7 @@
 # ML Spam Detection Project
 
 This project is a Flask-based API using a machine learning model to detect spam messages. The application can train new models based on uploaded CSV files and make predictions on text data.
-The main goal of the project is to transform [this notebook](https://www.kaggle.com/code/ahmedraafatmohamed/spam-emails-detection-using-naive-bayes-99) content into a production ready package, applying clean code principles.
+The main goal of the project is to transform [this notebook](https://www.kaggle.com/code/ahmedraafatmohamed/spam-emails-detection-using-naive-bayes-99) content into a production ready code, applying clean code principles.
 
 ## Installation
 
@@ -28,7 +28,7 @@ seaborn
 
 ## Project Structure
 ```
-├── app.py                 # Flask application and API endpoints
+├── app.py                # Flask application and API endpoints
 ├── MLModel.py            # Machine learning model implementation
 ├── constants.py          # Constants definitions
 └── artifacts/
@@ -107,6 +107,32 @@ Example response:
 }
 ```
 
+## Docker
+
+1. After starting the container:
+- Port 8081: Streamlit monitoring dashboard for visualizing ML model data.
+- Port 8080: REST API endpoints for `train` and `predict` operations.
+
+2. Build the Docker Image
+- Run the following command to build the Docker image:
+
+```bash
+docker build -t teszt .
+```
+
+3. Start the Container
+- Start the container with the following command:
+
+```bash
+docker run -p 8081:8081 -p 8080:8080 teszt
+```
+
+4. Access the Services
+- Streamlit dashboard: http://localhost:8081
+- REST API:
+    - Train: http://localhost:8080/model/train
+    - Predict: http://localhost:8080/model/predict
+
 ## Usage
 
 1. Start the server:
@@ -121,7 +147,6 @@ http://localhost:8080/
 
 ## Model Details
 - The system uses a Multinomial Naive Bayes classifier
-- Text processing is done using CountVectorizer
 - The model is automatically saved to the `artifacts/models/` directory
 - During training, the system splits data 80-20 (training-test)
 
@@ -131,4 +156,4 @@ Documentation and API models can be accessed at / when the application is runnin
 ## Files and Functions
 - app.py: Creates and manages the Flask API, which includes the /train and /predict endpoints.
 - constants.py: Defines key constants, such as the category names.
-- MLModel.py: The machine learning model class, which handles training, preprocessing, model saving, and loading.
+- MLModel.py: The machine learning model class, which handles training, preprocessing, model saving, and loading.444444444
