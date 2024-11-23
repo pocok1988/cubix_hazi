@@ -8,7 +8,7 @@ import mlflow
 from mlflow import MlflowClient
 from datetime import datetime
 from mlflow.exceptions import MlflowException
-from constants import MLFLOW_URL, EXPERIMENT_NAME, CATEGORY
+from constants import MLFLOW_URL, EXPERIMENT_NAME, CATEGORY, FLASK_PORT
 
 # Set MLflow tracking URI
 mlflow.set_tracking_uri(MLFLOW_URL)
@@ -175,4 +175,4 @@ class Predict(Resource):
 
 if __name__ == '__main__':
     print("Starting Flask API on port 8080...")
-    app.run(host='0.0.0.0', port=8080, debug=False)
+    app.run(host='0.0.0.0', port=FLASK_PORT, debug=False)

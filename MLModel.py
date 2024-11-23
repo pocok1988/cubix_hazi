@@ -1,3 +1,4 @@
+from pathlib import Path
 import pandas as pd
 import pickle
 import numpy as np
@@ -155,9 +156,9 @@ class MLModel:
         Returns:
             The accuracy of the model on the provided data set.
         """
-        y_pred = self.model.predict(X)
+        y_pred = self.model.predict(X['Message'].tolist())
 
-        accuracy = self.model.score(y, y_pred)
+        accuracy = self.model.score(y.astype(str), y_pred)
 
         print("Accuracy: ", accuracy)
 
