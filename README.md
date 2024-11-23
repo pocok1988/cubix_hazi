@@ -1,7 +1,7 @@
 # ML Spam Detection Project
 
 This project is a Flask-based API using a machine learning model to detect spam messages. The application can train new models based on uploaded CSV files and make predictions on text data.
-The main goal of the project is to transform [this notebook](https://www.kaggle.com/code/ahmedraafatmohamed/spam-emails-detection-using-naive-bayes-99) content into a production ready code, applying clean code principles.
+The main goal of the project is to transform [this notebook](https://www.kaggle.com/code/ahmedraafatmohamed/spam-emails-detection-using-naive-bayes-99) content into a production-ready code, applying clean code principles.
 
 ## Installation
 
@@ -24,6 +24,9 @@ scikit-learn
 numpy
 matplotlib
 seaborn
+mlflow
+streamlit
+evidently
 ```
 
 ## Project Structure
@@ -32,14 +35,34 @@ seaborn
 ├── MLModel.py                              # Machine learning model implementation
 ├── constants.py                            # Constants definitions
 ├── airflow/                                # Airflow stack, requirements.txt and train model pipeline for airflow
+│   ├── airflow_stack.yaml                  # Airflow stack configuration
+│   ├── requirements_airflow.txt            # Airflow requirements
+│   └── train_model_dag_with_notification.py# Airflow DAG for training model with notification
 ├── monitor_with_streamlit_train_data.py    # Streamlit monitoring dashboard
-├── pages
-    └── test_data.py                        # Streamlit monitoring dashboard component
-├── test
-    └── test_train_inference.py             # unit test
-└── artifacts/
-    └── models/                             # Saved models directory
-        └── clf_model.pkl                   # Trained model
+├── pages/
+│   └── test_data.py                        # Streamlit monitoring dashboard component
+├── test/
+│   └── test_train_inference.py             # Unit test
+├── artifacts/
+│   └── models/                             # Saved models directory
+│       └── clf_model.pkl                   # Trained model
+├── data/
+│   ├── spam.csv                            # Dataset
+│   ├── spam_10.csv                         # Dataset sample
+│   ├── spam_20.csv                         # Dataset sample
+│   └── spam_80.csv                         # Dataset sample
+├── orig_notebook/                          # Original notebook
+│   └── spam-emails-detection-using-naive-bayes-99.ipynb # Original notebook file
+├── test/
+│   └── spam-emails-detection-save_model.ipynb # Test notebook
+├── inference_pipeline.ipynb                # Inference pipeline notebook
+├── train_pipeline.ipynb                    # Training pipeline notebook
+├── Dockerfile                              # Dockerfile for containerizing the application
+├── environment.yml                         # Conda environment configuration
+├── requirements.txt                        # Python requirements
+├── build.sh                                # Build script
+├── stop.sh                                 # Stop script
+└── README.md                               # Project documentation
 ```
 
 ## API Endpoints
@@ -123,14 +146,14 @@ Example response:
 - Run the following command to build the Docker image:
 
 ```bash
-docker build -t teszt .
+docker build -t ml_spam_detection .
 ```
 
 3. Start the Container
 - Start the container with the following command:
 
 ```bash
-docker run -p 8081:8081 -p 8080:8080 teszt
+docker run -p 8081:8081 -p 8080:8080 ml_spam_detection
 ```
 
 4. Access the Services
@@ -160,6 +183,9 @@ http://localhost:8080/
 Documentation and API models can be accessed at / when the application is running.
 
 ## Files and Functions
-- app.py: Creates and manages the Flask API, which includes the /train and /predict endpoints.
-- constants.py: Defines key constants, such as the category names.
-- MLModel.py: The machine learning model class, which handles training, preprocessing, model saving, and loading.444444444
+- `app.py`: Creates and manages the Flask API, which includes the `/train` and `/predict` endpoints.
+- `constants.py`: Defines key constants, such as the category names.
+- `MLModel.py`: The machine learning model class, which handles training, preprocessing, model saving, and loading.
+- `monitor_with_streamlit_train_data.py`: Streamlit dashboard for monitoring training data.
+- `pages/test_data.py`: Streamlit component for browsing test datasets.
+- `test/test_train_inference.py`: Unit tests for training and inference pipelines.
