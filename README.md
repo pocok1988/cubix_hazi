@@ -28,12 +28,18 @@ seaborn
 
 ## Project Structure
 ```
-├── app.py                # Flask application and API endpoints
-├── MLModel.py            # Machine learning model implementation
-├── constants.py          # Constants definitions
+├── app.py                                  # Flask application and API endpoints
+├── MLModel.py                              # Machine learning model implementation
+├── constants.py                            # Constants definitions
+├── airflow/                                # Airflow stack, requirements.txt and train model pipeline for airflow
+├── monitor_with_streamlit_train_data.py    # Streamlit monitoring dashboard
+├── pages
+    └── test_data.py                        # Streamlit monitoring dashboard component
+├── test
+    └── test_train_inference.py             # unit test
 └── artifacts/
-    └── models/           # Saved models directory
-        └── clf_model.pkl # Trained model
+    └── models/                             # Saved models directory
+        └── clf_model.pkl                   # Trained model
 ```
 
 ## API Endpoints
